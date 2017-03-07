@@ -30,8 +30,12 @@
 ||
 */
 
+
+
 #ifndef KEYPAD_H
 #define KEYPAD_H
+
+#include <utility/Adafruit_MCP23017.h>
 
 #include "Key.h"
 
@@ -44,10 +48,10 @@
 #define _mypinMode(_pin, _mode)  \
 do {							 \
 	if(_mode == INPUT_PULLUP)	 \
-		pinMode(_pin, INPUT);	 \
-		digitalWrite(_pin, 1);	 \
+		mcpADA.pinMode(_pin, INPUT);	 \
+		mcpADA.pullup(_pin, HIGH);	 \
 	if(_mode != INPUT_PULLUP)	 \
-		pinMode(_pin, _mode);	 \
+		mcpADA.pinMode(_pin, _mode);	 \
 }while(0)
 #endif
 
@@ -77,9 +81,9 @@ public:
 
 	Keypad(char *userKeymap, byte *row, byte *col, byte numRows, byte numCols);
 
-	virtual void pin_mode(byte pinNum, byte mode) { pinMode(pinNum, mode); }
-	virtual void pin_write(byte pinNum, boolean level) { digitalWrite(pinNum, level); }
-	virtual int  pin_read(byte pinNum) { return digitalRead(pinNum); }
+	virtual void pin_mode(byte pinNum, byte mode) { mcpADA.pinMode(pinNum, mode); }
+	virtual void pin_write(byte pinNum, boolean level) { mcpADA.digitalWrite(pinNum, level); }
+	virtual int  pin_read(byte pinNum) { return mcpADA.digitalRead(pinNum); }
 
 	uint bitMap[MAPSIZE];	// 10 row x 16 column array of bits. Except Due which has 32 columns.
 	Key key[LIST_MAX];
@@ -108,6 +112,8 @@ private:
 	uint debounceTime;
 	uint holdTime;
 	bool single_key;
+
+	Adafruit_MCP23017 mcpADA;
 
 	void scanKeys();
 	bool updateList();

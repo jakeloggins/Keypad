@@ -51,6 +51,7 @@ Keypad::Keypad(char *userKeymap, byte *row, byte *col, byte numRows, byte numCol
 // Let the user define a keymap - assume the same row/column count as defined in constructor
 void Keypad::begin(char *userKeymap) {
     keymap = userKeymap;
+    mcpADA.begin();
 }
 
 // Returns a single key only. Retained for backwards compatibility.

@@ -1,7 +1,12 @@
+
+## Fork converts pin references from GPIO to MCP23017 IC.
+
+This fork allows you to connect a keypad to an MCP23017 IC expander by embedding the adafruit MCP23017 library. All of the example code found at the Arduino Playground will work with this slight library modification. See the MCP23017 example sketch for further details. This also works with the arduino library for the ESP8266.
+
+
 ## Keypad library for Arduino
 
 **Authors:**  *Mark Stanley***,** *Alexander Brevig*
-
 
 This repository is a copy of the code found here [[Arduino Playground]](http://playground.arduino.cc/Code/Keypad).
 
