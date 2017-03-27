@@ -43,7 +43,7 @@
 // See http://arduino.cc/forum/index.php/topic,142041.msg1069480.html#msg1069480
 #ifndef INPUT_PULLUP
 #warning "Using  pinMode() INPUT_PULLUP AVR emulation"
-#define INPUT_PULLUP 0x2
+/*#define INPUT_PULLUP 0x2
 #define pinMode(_pin, _mode) _mypinMode(_pin, _mode)
 #define _mypinMode(_pin, _mode)  \
 do {							 \
@@ -52,7 +52,7 @@ do {							 \
 		mcpADA.pullup(_pin, HIGH);	 \
 	if(_mode != INPUT_PULLUP)	 \
 		mcpADA.pinMode(_pin, _mode);	 \
-}while(0)
+}while(0)*/
 #endif
 
 
@@ -81,7 +81,18 @@ public:
 
 	Keypad(char *userKeymap, byte *row, byte *col, byte numRows, byte numCols);
 
-	virtual void pin_mode(byte pinNum, byte mode) { mcpADA.pinMode(pinNum, mode); }
+	//virtual void pin_mode(byte pinNum, byte mode) { mcpADA.pinMode(pinNum, mode); }
+
+	virtual void pin_mode(byte pinNum, byte mode) {
+	    if(mode == INPUT_PULLUP) {
+	      mcpADA.pinMode(pinNum, INPUT);
+	      mcpADA.pullUp(pinNum, HIGH);
+	    }
+	    else {
+	      mcpADA.pinMode(pinNum, mode);
+	    }
+	}
+
 	virtual void pin_write(byte pinNum, boolean level) { mcpADA.digitalWrite(pinNum, level); }
 	virtual int  pin_read(byte pinNum) { return mcpADA.digitalRead(pinNum); }
 
